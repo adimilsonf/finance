@@ -64,7 +64,7 @@ async function sendPaymentConfirmation(email, trackingCode, nomeCompleto, phone,
 
         <!-- Botão de Rastreio -->
         <div style="text-align: center; margin: 30px 0;">
-          <a href="https://seusite.com/rastreio/${trackingCode}" 
+          <a href="https://transportadora-auroralogistica.up.railway.app/rastreio/${trackingCode}" 
              style="background-color: #2563eb; color: white; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px;">
              🔍 Rastrear Pedido
           </a>
