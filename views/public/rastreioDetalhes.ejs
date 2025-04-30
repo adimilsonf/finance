@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Rastreamento | Transportadora Aurora</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+      <img src="/img/logo.png" alt="Logo Transportadora Aurora" class="w-32 sm:w-40">
+      <nav class="flex gap-4 text-blue-600 text-sm font-medium">
+        <p><strong>Código de Rastreio:</strong> <span class="text-blue-900 font-semibold"><%= order.tracking_code %></span></p>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="max-w-4xl mx-auto px-4 pt-6 pb-12">
+
+    <!-- Informações do Pedido -->
+    <section class="bg-white shadow rounded p-6 mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Informações do Pedido</h2>
+      <p><strong>Nome:</strong> <%= order.client_name %></p>
+      <p><strong>Telefone:</strong> <%= order.phone %></p>
+      <p><strong>Endereço:</strong>
+        <%= order.street %>, nº <%= order.number %> – <%= order.neighborhood %>,
+        <%= order.city %> - <%= order.uf %> – CEP: <%= order.zipcode %>
+      </p>
+      <p><strong>Status Atual:</strong> <span class="text-blue-700 font-medium"><%= order.status %></span></p>
+      
+    </section>
+
+    <!-- Timeline Estilo Correios -->
+    <section class="bg-white shadow rounded p-6">
+      <h2 class="text-2xl font-semibold mb-6">📍 Acompanhamento do Transporte</h2>
+
+      <ol class="relative border-l-4 border-blue-500 pl-6 space-y-8">
+        <% updates.forEach(function(update, index) { %>
+          <li class="relative">
+            <!-- Ícone numerado -->
+           <!-- <span class="absolute -left-4 top-1 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+              <%= updates.length - index %>
+            </span>
+
+            <!-- Conteúdo -->
+            <div class="mb-1 text-sm text-gray-500">
+              <%= new Date(update.timestamp).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) %>
+              <% if (update.cidade && update.uf) { %>
+                — <%= update.cidade %>/<%= update.uf %>
+              <% } %>
+            </div>
+            <p class="text-lg font-medium text-gray-800">
+  <% if (update.status.includes('Entregue')) { %>
+    ✅
+  <% } else if (update.status.includes('Saiu')) { %>
+    📍
+  <% } else if (update.status.includes('Chegou')) { %>
+    🏢
+  <% } else if (update.status.includes('Transporte')) { %>
+    🚚
+  <% } else if (update.status.includes('Despachado') || update.status.includes('Separado')) { %>
+    📦
+  <% } else { %>
+    📄
+  <% } %>
+  <%= update.status %>
+</p>
+            <% if (update.descricao) { %>
+              <p class="text-sm text-gray-600 italic mt-1"><%= update.descricao %></p>
+            <% } %>
+          </li>
+        <% }); %>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="text-center text-sm text-gray-500 py-6">
+    © 2025 Transportadora Aurora
+  </footer>
+
+</body>
+</html>

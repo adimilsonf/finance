@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Rastrear Pedido | Transportadora Aurora</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="flex flex-col items-center mb-6">
+  <img src="/img/logo.png" alt="Logo Transportadora Aurora" class="w-40 mb-2">
+</div>
+
+    <header>
+        <h1>Rastrear Pedido</h1>
+        <nav>
+            <a href="/">Home</a> |
+            <a href="/rastreio">Rastreio</a>
+        </nav>
+    </header>
+
+    <main class="p-6">
+        <form action="/rastreio" method="GET" class="max-w-md mx-auto">
+            <input type="text" name="codigo" placeholder="Digite seu código" required
+                   class="border p-2 w-full mb-4">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full">
+                Buscar
+            </button>
+        </form>
+
+        <% if (error) { %>
+            <div class="text-red-600 text-center mt-4">
+                <%= error %>
+            </div>
+        <% } %>
+
+    </main>
+
+    <footer class="text-center mt-8">
+        <p>© 2025 Transportadora Aurora</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedido <%= order.tracking_code %> | Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen">
+
+  <header class="bg-white shadow p-4 mb-6">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Admin - Pedido <%= order.tracking_code %></h1>
+      <a href="/admin/dashboard" class="text-blue-600 hover:underline">← Voltar para Dashboard</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 pb-12">
+
+    <!-- Dados do pedido -->
+    <section class="bg-white shadow rounded p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4">📦 Informações do Pedido</h2>
+      <p><strong>Nome:</strong> <%= order.client_name %></p>
+      <p><strong>Telefone:</strong> <%= order.phone %></p>
+      <p><strong>Endereço:</strong> <%= order.street %>, nº <%= order.number %> – <%= order.neighborhood %>, <%= order.city %> - <%= order.uf %>, CEP: <%= order.zipcode %></p>
+      <p><strong>Status Atual:</strong> <span class="text-blue-700 font-medium"><%= order.status %></span></p>
+    </section>
+
+    <!-- Timeline de etapas -->
+    <section class="bg-white shadow rounded p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-6">🧭 Etapas do Transporte</h2>
+
+      <% if (updates.length === 0) { %>
+        <p class="text-gray-600 italic">Nenhuma etapa registrada ainda.</p>
+      <% } else { %>
+        <ol class="relative border-l-4 border-blue-500 pl-6 space-y-8">
+          <% updates.forEach(function(update, index) { %>
+            <li class="relative">
+              <span class="absolute -left-4 top-1 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                <%= updates.length - index %>
+              </span>
+              <div class="mb-1 text-sm text-gray-500">
+                <%= new Date(update.timestamp).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) %>
+                <% if (update.cidade && update.uf) { %> — <%= update.cidade %>/<%= update.uf %><% } %>
+              </div>
+              <p class="text-lg font-medium text-gray-800">
+                <%= update.status %>
+              </p>
+              <% if (update.descricao) { %>
+                <p class="text-sm text-gray-600 italic mt-1"><%= update.descricao %></p>
+              <% } %>
+            </li>
+          <% }); %>
+        </ol>
+      <% } %>
+    </section>
+
+    <!-- Formulário nova etapa -->
+    <section class="bg-white shadow rounded p-6">
+      <h2 class="text-xl font-semibold mb-4">➕ Adicionar Nova Etapa</h2>
+      <form action="/admin/status/<%= order.id %>/etapa" method="POST" class="flex flex-col gap-4">
+        <input name="status" placeholder="Status (ex: Saiu para entrega)" required class="border px-4 py-2 rounded" />
+        <input name="descricao" placeholder="Descrição detalhada (opcional)" class="border px-4 py-2 rounded" />
+        <div class="flex gap-4">
+          <input name="cidade" placeholder="Cidade" class="border px-4 py-2 rounded w-full" />
+          <input name="uf" placeholder="UF" maxlength="2" class="border px-4 py-2 rounded w-24" />
+        </div>
+        <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
+          Adicionar Etapa
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportadora Aurora</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>Bem-vindo à Transportadora Aurora</h1>
+        <nav>
+            <a href="/">Home</a> |
+            <a href="/rastreio">Rastrear Pedido</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Seus Encomendas em Boas Mãos</h2>
+            <p>Rápido, seguro e confiável. Rastreamento 100% online.</p>
+        </section>
+
+        <section>
+            <h2>Rastreie sua Entrega</h2>
+            <form action="/rastreio" method="GET">
+                <input type="text" name="codigo" placeholder="Digite seu código de rastreio" required>
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Transportadora Aurora. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

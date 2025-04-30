@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transportadora Aurora | Rastrear Pedido</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans flex flex-col min-h-screen">
+
+  <!-- HEADER -->
+  <header class="bg-white border-b shadow-sm py-4">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center">
+      <a href="/" class="flex items-center gap-2">
+        <img src="/img/logo.png" alt="Logo Transportadora Aurora" class="w-32 sm:w-36">
+      </a>
+      <nav class="flex gap-6 text-blue-900 text-sm font-semibold mt-3 sm:mt-0">
+        <a href="/" class="hover:underline">Home</a>
+        <a href="/rastreio" class="hover:underline">Rastrear Pedido</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO COM FORMULÁRIO -->
+<!-- HERO COM FORMULÁRIO -->
+<main class="flex-1">
+  <section class="bg-orange-500 text-white py-10 px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-3 leading-tight">
+        Rastreie sua encomenda com facilidade
+      </h1>
+      <p class="text-md sm:text-lg text-white mb-6">
+        Digite o código de rastreio e acompanhe seu pedido em tempo real.
+      </p>
+
+      <!-- Formulário -->
+      <form action="/rastreio" method="GET" class="w-full flex flex-col sm:flex-row justify-center gap-3 items-stretch">
+        <input
+          type="text"
+          name="codigo"
+          placeholder="Digite seu código de rastreio"
+          required
+          class="w-full sm:w-96 px-4 py-3 rounded text-gray-800 focus:outline-none"
+        />
+        <button
+          type="submit"
+          class="bg-blue-900 hover:bg-blue-800 text-white font-bold px-6 py-3 rounded"
+        >
+          🔍 Buscar
+        </button>
+      </form>
+
+      <img src="/img/banner-aurora.png" alt="Rastreamento" class="mt-8 w-full max-w-lg mx-auto rounded-xl shadow-lg">
+    </div>
+  </section>
+
+
+    <!-- COMO FUNCIONA -->
+    <section class="bg-white py-14 px-6 text-gray-800">
+      <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div>
+          <h2 class="text-xl font-bold text-orange-600 mb-2">📦 Rastreamento em tempo real</h2>
+          <p>Acompanhe o status da sua entrega do início ao fim com transparência e precisão.</p>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-blue-900 mb-2">📬 Como rastrear?</h2>
+          <p>Use o código recebido pela loja. Exemplo: <strong>AST408365BR</strong></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="bg-blue-900 text-white text-sm text-center py-6">
+    © 2025 Transportadora Aurora. Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>
