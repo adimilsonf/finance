@@ -56,7 +56,7 @@ async function sendPaymentConfirmation(email, trackingCode, nomeCompleto, phone,
           <ul style="font-size: 15px; color: #333; padding-left: 20px;">
             ${items.map(item => `
               <li>
-                ${item.quantity}x <strong>${item.name}</strong> — R$ ${Number(item.price).toFixed(2).replace('.', ',')}
+               ${Number(item.quantity)}x <strong>${item.name}</strong> — R$ ${Number(item.price).toFixed(2).replace('.', ',')}
               </li>
             `).join('')}
           </ul>
