@@ -11,6 +11,13 @@ function gerarCodigoRastreio() {
 
 exports.receberPagamento = async (req, res) => {
     try {
+
+        // 🔍 Verificação para ignorar webhook de teste
+        if (req.body.sucess && typeof req.body.sucess === 'string') {
+            console.log('🟡 Webhook de teste recebido:', req.body.sucess);
+            return res.status(200).json({ status: 'ok', message: 'Webhook de teste ignorado.' });
+        }
+
         const resource = req.body.resource;
 
         if (!resource) {
