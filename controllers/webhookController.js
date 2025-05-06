@@ -1,6 +1,5 @@
 const db = require('../models/db');
 const { sendPaymentConfirmation } = require('../services/emailService');
-const crypto = require('crypto');
 
 // Geração de código de rastreio
 function gerarCodigoRastreio() {
@@ -12,27 +11,31 @@ function gerarCodigoRastreio() {
 
 exports.receberPagamento = async (req, res) => {
     try {
-        const body = req.body;
+        const resource = req.body.resource;
 
-        const client = body.client;
-        const address = body.address;
-        const items = body.items;
+        if (!resource) {
+            return res.status(400).json({ erro: 'Corpo do webhook sem campo resource.' });
+        }
 
-        if (!client || !address || !items || items.length === 0) {
+        const customer = resource.customer;
+        const address = resource.address;
+        const items = resource.items;
+
+        if (!customer || !address || !items || items.length === 0) {
             return res.status(400).json({ erro: 'Payload incompleto: dados de cliente, endereço ou itens ausentes.' });
         }
 
         // Dados do cliente
-        const nomeCompleto = client.name;
-        const email = client.email;
-        const phone = client.phone;
+        const nomeCompleto = `${customer.first_name} ${customer.last_name}`;
+        const email = customer.email;
+        const phone = customer.phone;
 
         // Dados do endereço
         const street = address.street;
         const number = address.number;
         const neighborhood = address.neighborhood || '-';
         const city = address.city;
-        const uf = address.state;
+        const uf = address.uf;
         const zipcode = address.zipcode;
 
         const trackingCode = gerarCodigoRastreio();
