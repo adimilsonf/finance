@@ -19,36 +19,36 @@ exports.receberPagamento = async (req, res) => {
             return res.status(200).json({ status: 'ok', message: 'Webhook de teste ignorado.' });
         }
 
-        const customer = body.customer;
+        const client = body.client;
         const address = body.address;
-        const plans = body.plans;
+        const items = body.items;
 
-        if (!customer || !address || !plans || plans.length === 0) {
-            return res.status(400).json({ erro: 'Payload incompleto: cliente, endereço ou planos ausentes.' });
+        if (!client || !address || !items || items.length === 0) {
+            return res.status(400).json({ erro: 'Payload incompleto: cliente, endereço ou itens ausentes.' });
         }
 
         // Dados do cliente
-        const nomeCompleto = customer.name;
-        const email = customer.email;
-        const phone = customer.phone;
+        const nomeCompleto = client.name;
+        const email = client.email;
+        const phone = client.phone;
 
-        // Dados do endereço
+        // Endereço
         const street = address.street;
         const number = address.number;
-        const neighborhood = address.district || '-';
+        const neighborhood = address.neighborhood || '-';
         const city = address.city;
         const uf = address.state;
-        const zipcode = address.zip_code;
+        const zipcode = address.zipcode;
 
         const trackingCode = gerarCodigoRastreio();
 
-        // Inserir pedido no banco
+        // Salvar pedido no banco
         const result = await db.query(
             `INSERT INTO orders 
-                (client_name, client_email, phone, tracking_code, status, street, number, neighborhood, city, uf, zipcode)
-             VALUES 
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-             RETURNING id`,
+            (client_name, client_email, phone, tracking_code, status, street, number, neighborhood, city, uf, zipcode)
+            VALUES 
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            RETURNING id`,
             [
                 nomeCompleto, email, phone, trackingCode, 'Aguardando Coleta',
                 street, number, neighborhood, city, uf, zipcode
@@ -57,30 +57,28 @@ exports.receberPagamento = async (req, res) => {
 
         const orderId = result.rows[0].id;
 
-        // Histórico inicial
+        // Registrar etapa inicial
         await db.query(
-            `INSERT INTO tracking_updates (order_id, status, timestamp) 
+            `INSERT INTO tracking_updates (order_id, status, timestamp)
              VALUES ($1, $2, (NOW() AT TIME ZONE 'America/Sao_Paulo'))`,
             [orderId, 'Aguardando Coleta']
         );
 
-        // Extrair todos os produtos de dentro dos planos
-        const items = plans.flatMap(plan =>
-            plan.products.map(product => ({
-                name: product.name,
-                quantity: product.amount,
-                price: Number(plan.value) / product.amount // valor dividido igualmente
-            }))
-        );
+        // Corrigir preços caso venham como string (ex: "99.90")
+        const formattedItems = items.map(item => ({
+            name: item.name,
+            quantity: Number(item.quantity),
+            price: Number(item.price) // já vem em reais
+        }));
 
-        // Enviar e-mail com rastreio
+        // Enviar e-mail com dados
         await sendPaymentConfirmation(
             email,
             trackingCode,
             nomeCompleto,
             phone,
             { street, number, neighborhood, city, uf, zipcode },
-            items
+            formattedItems
         );
 
         res.status(200).json({ sucesso: true, trackingCode });
