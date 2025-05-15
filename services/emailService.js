@@ -80,7 +80,7 @@ async function sendPaymentConfirmation(email, trackingCode, nomeCompleto, phone,
     `;
 
     const info = await transporter.sendMail({
-        from: `"Novo Pedido - Transportadora Aurora" <${process.env.SMTP_USER}>`,
+        from: `"All Shopping das Bebidas - Transportadora Aurora" <${process.env.SMTP_USER}>`,
         to: email,
         subject: "Seu pagamento foi aprovado!",
         html: htmlContent,
